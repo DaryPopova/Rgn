@@ -2,7 +2,7 @@ package models;
 
 public class DbRunner {
     public static void main(String[] args) {
-       // User user = new User(){{id = 12; name = "Masha"; age = 26;}};
+        //User user = new User(){{id = 12; name = "Masha"; age = 26;}};
         User user = new User();
         user.id = 1;
 
@@ -19,8 +19,8 @@ public class DbRunner {
 
         ford.setUser(user);
         user.addAuto(ford);
-        Auto bmw = new Auto(){{id = 3; model = "BMW"; color = "gold";}};
-        //Auto bmw = new Auto(3,"BMW", "gold");
+        //Auto bmw = new Auto(){{id = 3; model = "BMW"; color = "gold";}};
+        Auto bmw = new Auto(3,"BMW", "gold");
 
         bmw.save();
         user.update();
