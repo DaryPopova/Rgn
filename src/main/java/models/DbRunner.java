@@ -10,6 +10,7 @@ public class DbRunner {
 
         user.save();
         Auto ferrari = new Auto(){{id = 1; model = "Ferrari"; color = "red";}};
+        System.out.println(ferrari.getClass());
         //Auto ferrari = new Auto(1,"Ferrari", "red");
 
         ferrari.setUser(user);
@@ -19,8 +20,10 @@ public class DbRunner {
 
         ford.setUser(user);
         user.addAuto(ford);
-        //Auto bmw = new Auto(){{id = 3; model = "BMW"; color = "gold";}};
-        Auto bmw = new Auto(3,"BMW", "gold");
+        Auto bmw = new Auto(){{id = 3; model = "BMW"; color = "gold";}};
+//        bmw.setUser(user);
+//        user.addAuto(bmw);
+//        Auto bmw = new Auto(3,"BMW", "gold");
 
         bmw.save();
         user.update();

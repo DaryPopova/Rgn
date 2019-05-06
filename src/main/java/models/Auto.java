@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "autos")
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 public class Auto extends DataAccessObject {
 
     @Id

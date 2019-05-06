@@ -6,6 +6,7 @@ import java.util.List;
 
 @Entity
 @Table (name = "users")
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 public class User extends DataAccessObject {
 
     @Id
