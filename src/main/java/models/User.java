@@ -1,24 +1,21 @@
 package models;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table (name = "users")
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@Reflectable(name="reflectable",  value = "какие-то метаданные")
 public class User extends DataAccessObject {
 
-    @Id
-    public int id;
+    public Integer id;
 
-    @Column(name = "name")
+    @Reflectable2(name="reflectable2",  value = "какие-то метаданные2")
     public String name;
     //можно не указывать Column name, если оно совпадает с названием столбца в таблице
     public int age;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     public List<Auto> autos;
+
+    public FullName fullName;
 
     public User() {
         autos = new ArrayList<Auto>();
@@ -31,8 +28,8 @@ public class User extends DataAccessObject {
         autos = new ArrayList<Auto>();
     }
 
+    @Reflectable1(name="reflectable1",  value = "какие-то метаданные1")
     public void addAuto(Auto auto) {
-        auto.setUser(this);
         autos.add(auto);
     }
 

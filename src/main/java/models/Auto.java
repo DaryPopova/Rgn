@@ -1,25 +1,13 @@
 package models;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name = "autos")
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 public class Auto extends DataAccessObject {
 
-    @Id
-    public int id;
+    public Integer id;
 
-    @Column (name = "model")
     public String model;
 
     //можно не указывать Column name, если оно совпадает с названием столбца в таблице
     public String color;
-
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    public User user;
 
     public Auto() {
     }
@@ -29,13 +17,4 @@ public class Auto extends DataAccessObject {
         this.model = model;
         this.color = color;
     }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
 }
