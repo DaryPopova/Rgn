@@ -5,7 +5,7 @@ public class Auto extends Entity {
     public Integer id;
     public String model;
     public String color;
-    @Nonreflectable
+    @NonReflectable
     public User user;
 
     public Auto() {

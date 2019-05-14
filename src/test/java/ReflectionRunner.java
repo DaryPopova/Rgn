@@ -3,8 +3,6 @@ import models.FullName;
 import models.User;
 import org.junit.jupiter.api.Test;
 
-import static models.FieldsPrinter.printParameters;
-
 public class ReflectionRunner {
 
     @Test
@@ -27,6 +25,6 @@ public class ReflectionRunner {
         ford.model = "Ford";
         ford.color = "black";
         user.addAuto(ford);
-        printParameters(user);
+        Logger.log(user);
     }
 }
