@@ -1,7 +1,4 @@
-import models.Entity;
-import models.NonReflectable;
-import models.Primitive;
-import models.Report;
+package models;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
@@ -14,9 +11,10 @@ public class Logger {
             if (!(field.getType().equals(Class.class) || Arrays.stream(field.getDeclaredAnnotations()).anyMatch(
                     annotation -> annotation instanceof NonReflectable))) {
                 if (!Collection.class.isAssignableFrom(field.getType())) {
-                    report.addLine("%s: %s", "Имя", field.getName());
+                    report.addLine("%s: %s", "Name of field", field.getName());
                     field.setAccessible(true);
-                    report.addLine("%s: %s", "Значение", field.get(object).toString());
+                    report.addLine("%s: %s", "Value of field", field.get(object).toString());
+                    //report.addLine("%s", "\n");
                     if (!(field.getType().isPrimitive() || new Primitive().primitiveClasses.contains(field.getType()) ||
                             field.getType().equals(String.class))) {
                         report.indent();

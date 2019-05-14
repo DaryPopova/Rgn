@@ -1,5 +1,6 @@
 import models.Auto;
 import models.FullName;
+import models.Logger;
 import models.User;
 import org.junit.jupiter.api.Test;
 
