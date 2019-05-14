@@ -1,9 +1,5 @@
 package readers;
 
-import au.com.bytecode.opencsv.CSVReader;
-
-import java.io.FileReader;
-
 public class CSVMappedToJavaBean {
     public static void main(String[] args) throws Exception
     {

@@ -42,6 +42,5 @@ public class ParquetReader {
         Parquet parquet = new Parquet(simpleGroups, fields);
         System.out.println(parquet.getData().get(1));
         //System.out.println(parquet.getSchema());
-
     }
 }

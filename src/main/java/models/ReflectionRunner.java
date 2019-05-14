@@ -26,8 +26,6 @@ public class ReflectionRunner {
         ford.model = "Ford";
         ford.color = "black";
         user.addAuto(ford);
-        Integer integer = 23;
-        int integ = 45;
         printParameters(user);
         Class userClass = User.class;
         Annotation[] annotations = userClass.getAnnotations();
