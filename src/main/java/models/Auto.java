@@ -9,6 +9,9 @@ public class Auto extends DataAccessObject {
     //можно не указывать Column name, если оно совпадает с названием столбца в таблице
     public String color;
 
+    @Nonreflectable
+    public User user;
+
     public Auto() {
     }
 
@@ -16,5 +19,9 @@ public class Auto extends DataAccessObject {
         this.id = id;
         this.model = model;
         this.color = color;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

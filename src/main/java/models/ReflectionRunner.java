@@ -70,7 +70,8 @@ public class ReflectionRunner {
         for (Field field : fields) {
             Type fieldType = field.getGenericType();
 
-            if (!(field.getType().equals(Class.class))) {
+            if (!(field.getType().equals(Class.class) || Arrays.stream(field.getDeclaredAnnotations()).anyMatch(
+                    annotation -> annotation instanceof Nonreflectable))) {
                 if (!Collection.class.isAssignableFrom(field.getType())) {
                     System.out.println("Имя: " + field.getName());
                     System.out.println("Тип: " + fieldType);
@@ -86,11 +87,11 @@ public class ReflectionRunner {
                     for (Object o : (Collection) field.get(object)) {
                         System.out.println(o);
                         printParameters(o);
-
                     }
                 }
+            }
+
             }
         }
 
     }
-}

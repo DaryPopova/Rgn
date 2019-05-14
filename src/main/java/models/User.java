@@ -31,6 +31,7 @@ public class User extends DataAccessObject {
     @Reflectable1(name="reflectable1",  value = "какие-то метаданные1")
     public void addAuto(Auto auto) {
         autos.add(auto);
+        auto.setUser(this);
     }
 
     public void removeAuto(Auto auto) {
