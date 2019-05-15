@@ -3,32 +3,36 @@ package models;
 import models.entities.Entity;
 
 import java.lang.reflect.Field;
-import java.util.Arrays;
 import java.util.Collection;
 
 public class Logger {
     public static Report logToReport(Object object, Report report) throws IllegalAccessException {
-        report.addLine("%s: %s", "Name of object", object.toString());
         Field[] fields = object.getClass().getDeclaredFields();
         for (Field field : fields) {
-            if (!(field.getType().equals(Class.class) || Arrays.stream(field.getDeclaredAnnotations()).anyMatch(
-                    annotation -> annotation instanceof NonReflectable))) {
-                if (!Collection.class.isAssignableFrom(field.getType())) {
+           switch (ObjectTools.getTypeKind(field)) {
+               case PRIMITIVE:
+               case STRING:
                     field.setAccessible(true);
                     report.addLine("%s: %s", field.getName(), field.get(object).toString());
-                    if (!(field.getType().isPrimitive() || new Primitive().primitiveClasses.contains(field.getType()) ||
-                            field.getType().equals(String.class))) {
-                        report.indent();
-                        logToReport(field.get(object), report);
-                        report.unindent();
-                    }
-                } else {
-                    report.indent();
-                    for (Object o : (Collection) field.get(object)) {
+                    break;
+
+               case COMPLEX:
+                   field.setAccessible(true);
+                   report.indent();
+                   report.addLine("%s: %s %s", field.getName(), "Object of",field.getType().toString());
+                   logToReport(field.get(object), report);
+                   report.unindent();
+                   break;
+
+               case COLLECTION:
+                   field.setAccessible(true);
+                   report.indent();
+                   report.addLine("%s: %s %s", field.getName(), "Collection of", field.getGenericType().toString());
+                   for (Object o : (Collection) field.get(object)) {
                         logToReport(o, report);
                     }
                     report.unindent();
-                }
+                    break;
             }
         }
         return report;
