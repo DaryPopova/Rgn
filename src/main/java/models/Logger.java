@@ -26,8 +26,9 @@ public class Logger {
 
                case COLLECTION:
                    field.setAccessible(true);
+                   report.addLine("%s: %s %s", field.getName(), "Collection of",
+                   field.getGenericType().toString().replaceAll(".*<", "").replaceAll(">", ""));
                    report.indent();
-                   report.addLine("%s: %s %s", field.getName(), "Collection of", field.getGenericType().toString());
                    for (Object o : (Collection) field.get(object)) {
                         logToReport(o, report);
                     }
