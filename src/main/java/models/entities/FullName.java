@@ -1,4 +1,4 @@
-package models;
+package models.entities;
 
 public class FullName extends Entity {
     public String longName;

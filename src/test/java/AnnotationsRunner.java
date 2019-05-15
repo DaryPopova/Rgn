@@ -1,4 +1,6 @@
 import models.*;
+import models.entities.Auto;
+import models.entities.User;
 import org.junit.jupiter.api.Test;
 
 import java.lang.annotation.Annotation;

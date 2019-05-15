@@ -1,4 +1,8 @@
-package models;
+package models.entities;
+
+import models.Reflectable;
+import models.Reflectable1;
+import models.Reflectable2;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +18,7 @@ public class User extends Entity {
     public FullName fullName;
 
     public User() {
-        autos = new ArrayList<Auto>();
+        autos = new ArrayList<>();
     }
 
     @Reflectable1(name="reflectable1",  value = "какие-то метаданные1")
