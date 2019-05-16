@@ -12,7 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CsvHandler {
-    public ArrayList<Entity> readCsvToListOfEntities(Class typeOfEntity, String path) throws IOException {
+    public <T> ArrayList<T> readCsvToListOfEntities(String path) throws IOException {
+        ArrayList<T> listOfEntities = new ArrayList<>();
         FileInputStream is = new FileInputStream(path);
         Reader in = new InputStreamReader(is);
         CSVParser parser = new CSVParser(in, CSVFormat.RFC4180);
@@ -22,7 +23,7 @@ public class CsvHandler {
 
             }
         }
-        return new ArrayList<>();
+        return listOfEntities;
     }
 
     public void writeEntitiesToCsv(ArrayList<Entity> entities) {

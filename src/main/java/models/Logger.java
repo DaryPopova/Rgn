@@ -6,21 +6,21 @@ import java.lang.reflect.Field;
 import java.util.Collection;
 
 public class Logger {
-    public static Report logToReport(Object object, Report report) throws IllegalAccessException {
+    public static Report logToReport(Object object, Report report){
         Field[] fields = object.getClass().getDeclaredFields();
         for (Field field : fields) {
            switch (ObjectTools.getTypeKind(field)) {
                case PRIMITIVE:
                case STRING:
                     field.setAccessible(true);
-                    report.addLine("%s: %s", field.getName(), field.get(object).toString());
+                    report.addLine("%s: %s", field.getName(), getObject(field, object).toString());
                     break;
 
                case COMPLEX:
                    field.setAccessible(true);
                    report.addLine("%s: %s %s", field.getName(), "Object of",field.getType().toString());
                    report.indent();
-                   logToReport(field.get(object), report);
+                   logToReport(getObject(field, object), report);
                    report.unindent();
                    break;
 
@@ -29,7 +29,7 @@ public class Logger {
                    report.addLine("%s: %s %s", field.getName(), "Collection of",
                    field.getGenericType().toString().replaceAll(".*<", "").replaceAll(">", ""));
                    report.indent();
-                   for (Object o : (Collection) field.get(object)) {
+                   for (Object o : (Collection) getObject(field, object)) {
                         logToReport(o, report);
                     }
                     report.unindent();
@@ -48,5 +48,15 @@ public class Logger {
 
     public static void log(Entity entity) throws IllegalAccessException {
         System.out.println(logToReport(entity).toString());
+    }
+
+    private static Object getObject(Field field, Object object) {
+        try {
+            if (field != null) {
+                return field.get(object);
+            } else return "[null]";
+        } catch (IllegalAccessException e) {
+            return "Исключение IllegalAccessException";
+        }
     }
 }
