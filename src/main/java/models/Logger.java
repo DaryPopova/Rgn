@@ -18,8 +18,8 @@ public class Logger {
 
                case COMPLEX:
                    field.setAccessible(true);
-                   report.indent();
                    report.addLine("%s: %s %s", field.getName(), "Object of",field.getType().toString());
+                   report.indent();
                    logToReport(field.get(object), report);
                    report.unindent();
                    break;

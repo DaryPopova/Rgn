@@ -17,6 +17,6 @@ public class CsvReader {
         Reader in = new InputStreamReader(is);
         CSVParser parser = new CSVParser(in, CSVFormat.RFC4180);
         List<CSVRecord> list = parser.getRecords();
-        System.out.println(list.get(11).get(2));
+        System.out.println(list.get(0));
     }
 }
