@@ -4,10 +4,7 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.*;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -44,7 +41,19 @@ public class CsvHandler {
         return columnAnnotation.name();
     }
 
-    public void writeEntitiesToCsv(ArrayList<Entity> entities) {
-
+    public void writeEntitiesToCsv(ArrayList<Entity> entities, String path) throws Exception {
+        FileWriter writer = new FileWriter(path);
+        for (Entity entity: entities) {
+            for (Field field: entity.getClass().getDeclaredFields()) {
+                if (field.get(entity) == null) {
+                    writer.append("");
+                } else {
+                    writer.append(field.get(entity).toString());
+                }
+                writer.append(",");
+            }
+            writer.append("\n");
+        }
+        writer.close();
     }
 }
