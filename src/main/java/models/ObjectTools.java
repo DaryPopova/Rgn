@@ -24,4 +24,18 @@ public class ObjectTools {
         }
         else return FieldTypeKind.DEFAULT;
     }
+
+
+    public static Object toTypeWithValue(Class clazz, String value) throws Exception{
+      if(clazz == String.class) {
+          return value;
+      }
+      else if(clazz == Integer.class) {
+          return Integer.parseInt(value);
+      }
+      else if(clazz == Double.class) {
+          return Double.parseDouble(value);
+      }
+      else throw new Exception("Тип не поддерживается");
+    }
 }
