@@ -1,7 +1,7 @@
 
 import csv.CsvHandler;
-import csv.Employee;
-import csv.Entity;
+import models.entities.Employee;
+import models.entities.Entity;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

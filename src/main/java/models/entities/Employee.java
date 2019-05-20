@@ -1,4 +1,6 @@
-package csv;
+package models.entities;
+
+import csv.Column;
 
 public class Employee extends Entity {
     @Column(name = "record_type")
