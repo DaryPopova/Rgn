@@ -3,6 +3,7 @@ package models;
 import models.entities.Entity;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
 import java.util.Collection;
 
 public class Logger {
@@ -27,7 +28,7 @@ public class Logger {
                case COLLECTION:
                    field.setAccessible(true);
                    report.addLine("%s: %s %s", field.getName(), "Collection of",
-                   field.getGenericType().toString().replaceAll(".*<", "").replaceAll(">", ""));
+                           (field.getGenericType()).toString());
                    report.indent();
                    for (Object o : (Collection) getObject(field, object)) {
                         logToReport(o, report);
