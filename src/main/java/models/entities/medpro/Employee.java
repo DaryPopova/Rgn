@@ -1,6 +1,7 @@
-package models.entities;
+package models.entities.medpro;
 
 import csv.Column;
+import models.entities.Entity;
 
 public class Employee extends Entity {
     @Column(name = "record_type")

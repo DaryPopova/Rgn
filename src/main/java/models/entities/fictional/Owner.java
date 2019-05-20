@@ -1,4 +1,4 @@
-package models.entities;
+package models.entities.fictional;
 
 public class Owner {
     public Integer id;

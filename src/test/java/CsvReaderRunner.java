@@ -1,5 +1,5 @@
 import csv.CsvHandler;
-import models.entities.Employee;
+import models.entities.medpro.Employee;
 import org.junit.jupiter.api.Test;
 
 public class CsvReaderRunner {

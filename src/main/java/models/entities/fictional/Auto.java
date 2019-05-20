@@ -1,6 +1,7 @@
-package models.entities;
+package models.entities.fictional;
 
 import models.NonReflectable;
+import models.entities.Entity;
 
 import java.util.ArrayList;
 import java.util.List;

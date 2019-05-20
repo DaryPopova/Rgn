@@ -3,7 +3,6 @@ package models;
 import models.entities.Entity;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
 import java.util.Collection;
 
 public class Logger {

@@ -1,5 +1,5 @@
-import models.entities.*;
 import models.Logger;
+import models.entities.fictional.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

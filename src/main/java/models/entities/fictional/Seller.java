@@ -1,4 +1,6 @@
-package models.entities;
+package models.entities.fictional;
+
+import models.entities.Entity;
 
 public class Seller extends Entity {
     public Integer id;
