@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Collection;
 
 import static models.Logger.getObject;
 import static models.Logger.log;
@@ -23,47 +22,53 @@ public class VeevaPersonAndBusiness {
         ArrayList<PersonAccount> personAccounts = csvHandler.readCsvToListOfEntities(PersonAccount.class,
                 "C:\\Users\\padre\\Downloads\\Microsoft.SkypeApp_kzf8qxf38zg5c!App\\All\\минимальный набор из реальных данных\\personaccount.csv");
 
-        linkTables(businessAccounts, personAccounts);
+        linkEntities(businessAccounts, personAccounts);
         for (Entity businessAccount: businessAccounts) {
             log(businessAccount);
         }
     }
 
-    public void linkTables(ArrayList<BusinessAccount> businessAccounts, ArrayList<PersonAccount> personAccounts) {
-        for (Entity entity: businessAccounts) {
-            ArrayList<PersonAccount> listOfPersonAccounts = new ArrayList<>();
-            linkListWithOneEntity(entity, personAccounts, listOfPersonAccounts);
+    public void linkEntities(ArrayList<BusinessAccount> businessAccounts, ArrayList<PersonAccount> personAccounts) {
+        for (Entity parentEntity: businessAccounts) {
+            ArrayList<PersonAccount> listOfChildEntities = new ArrayList<>();
+            linkListWithOneEntity(parentEntity, personAccounts, listOfChildEntities);
         }
     }
 
-    public void linkListWithOneEntity(Entity entity, ArrayList<PersonAccount> personAccounts, Collection listOfPersonAccounts) {
-        for (Field field : entity.getClass().getDeclaredFields()) {
-            if (field.getDeclaredAnnotation(Has.class) != null &&
-                    field.getDeclaredAnnotation(Has.class).childClass().equals(PersonAccount.class)) {
-              addToList(entity, field, personAccounts, listOfPersonAccounts);
+    private void linkListWithOneEntity(Entity parentEntity, ArrayList<PersonAccount> personAccounts, ArrayList listOfChildEntities) {
+        for (Field parentLinkedField : parentEntity.getClass().getDeclaredFields()) {
+            if (parentLinkedField.getDeclaredAnnotation(Has.class) != null &&
+                    parentLinkedField.getDeclaredAnnotation(Has.class).childClass().equals(PersonAccount.class)) {
+              addToList(parentEntity, parentLinkedField, personAccounts, listOfChildEntities);
             }
         }
     }
 
-      public void addToList(Entity entity, Field field, ArrayList<PersonAccount> personAccounts, Collection listOfPersonAccounts) {
-          if (ObjectTools.getTypeKind(field).equals(FieldTypeKind.COLLECTION)) {
+    private void addToList(Entity parentEntity, Field parentLinkedField, ArrayList<PersonAccount> personAccounts, ArrayList listOfChildEntities) {
+          if (ObjectTools.getTypeKind(parentLinkedField).equals(FieldTypeKind.COLLECTION)) {
               try {
-                  field.set(entity, listOfPersonAccounts);
+                  parentLinkedField.set(parentEntity, listOfChildEntities);
               } catch (IllegalAccessException e) {
                   System.out.println("Исключение IllegalAccessException");
               }
               for (PersonAccount personAccount : personAccounts) {
-                  for (Field personField : personAccount.getClass().getDeclaredFields()) {
-                      if ((personField.getName().equals(field.getAnnotation(Has.class).childFieldName()))) {
-                          for (Field entityField : entity.getClass().getDeclaredFields()) {
-                              if (entityField.getName().equals(field.getAnnotation(Has.class).parentFieldName()) &&
-                                  getObject(personField, personAccount).equals(getObject(entityField, entity))) {
-                                      listOfPersonAccounts.add(personAccount);
-                                  }
-                              }
+                  addToListOneChildEntity(parentEntity, parentLinkedField, personAccount, listOfChildEntities);
+                  }
+              }
+          }
+
+          private void addToListOneChildEntity(Entity parentEntity, Field parentLinkedField, PersonAccount personAccount, ArrayList listOfChildEntities) {
+              for (Field childField : personAccount.getClass().getDeclaredFields()) {
+                  if ((childField.getName().equals(parentLinkedField.getAnnotation(Has.class).childFieldName()))) {
+                      for (Field parentField : parentEntity.getClass().getDeclaredFields()) {
+                          if (parentField.getName().equals(parentLinkedField.getAnnotation(Has.class).parentFieldName()) &&
+                                  getObject(childField, personAccount).equals(getObject(parentField, parentEntity))) {
+                              listOfChildEntities.add(personAccount);
                           }
                       }
                   }
               }
           }
+
+
       }
