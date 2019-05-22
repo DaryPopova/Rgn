@@ -25,21 +25,25 @@ public class CsvHandler {
             Object entity = typeOfEntity.newInstance();
             for (int j = 0; j < csvRecords.get(i).size(); j++) {
                 for (Field field: typeOfEntity.getDeclaredFields()) {
-                    if (csvRecords.get(0).get(j).equals(getColumnName(field))) {
-                        field.set(entity, toTypeWithValue(field.getType(), csvRecords.get(i).get(j)));
-                    }
+                    if (getColumnName(field) != null) {
+                        if (csvRecords.get(0).get(j).equals(getColumnName(field))) {
+                            field.set(entity, toTypeWithValue(field.getType(), csvRecords.get(i).get(j)));
+                        }
+                    } else {}
                 }
             }
             listOfEntities.add(entity);
         }
-        System.out.println(listOfEntities);
         return listOfEntities;
     }
 
     private String getColumnName(Field field) {
         Annotation annotation = field.getAnnotation(Column.class);
         Column columnAnnotation = (Column) annotation;
-        return columnAnnotation.name();
+        if (columnAnnotation == null) {
+            return null;
+        }
+        else return columnAnnotation.name();
     }
 
     public void writeEntitiesToCsv(ArrayList<Entity> entities, String path) throws Exception {

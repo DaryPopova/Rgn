@@ -1,7 +1,5 @@
 package models;
 
-import models.entities.Entity;
-
 import java.lang.reflect.Field;
 import java.util.Collection;
 
@@ -29,9 +27,11 @@ public class Logger {
                    report.addLine("%s: %s %s", field.getName(), "Collection of",
                            (field.getGenericType()).toString());
                    report.indent();
-                   for (Object o : (Collection) getObject(field, object)) {
-                        logToReport(o, report);
-                    }
+                   if (getObject(field, object) != null) {
+                       for (Object o : (Collection) getObject(field, object)) {
+                           logToReport(o, report);
+                       }
+                   } else {}
                     report.unindent();
                     break;
             }
@@ -39,18 +39,18 @@ public class Logger {
         return report;
     }
 
-    public static Report logToReport(Entity entity) throws IllegalAccessException {
+    public static Report logToReport(Object entity) throws IllegalAccessException {
         Report report = new Report();
         logToReport(entity, report);
         report.addLine("%s", "-------------------");
         return report;
     }
 
-    public static void log(Entity entity) throws IllegalAccessException {
+    public static void log(Object entity) throws IllegalAccessException {
         System.out.println(logToReport(entity).toString());
     }
 
-    private static Object getObject(Field field, Object object) {
+    public static Object getObject(Field field, Object object) {
         try {
             if (field != null) {
                 return field.get(object);
