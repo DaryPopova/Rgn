@@ -14,6 +14,6 @@ public class BusinessAccount extends Entity {
     @Column(name = "reg_verification_status__c")
     public String regVerificationStatusC;
 
-    @Has(childClass = PersonAccount.class, childFieldName = "primaryParentVodC", parentFieldName = "id")
+    @Has(childFieldName = "primaryParentVodC", parentFieldName = "id")
     public ArrayList<PersonAccount> personAccounts;
 }

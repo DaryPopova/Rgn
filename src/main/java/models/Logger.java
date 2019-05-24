@@ -3,6 +3,8 @@ package models;
 import java.lang.reflect.Field;
 import java.util.Collection;
 
+import static models.ObjectTools.getObject;
+
 public class Logger {
     public static Report logToReport(Object object, Report report){
         Field[] fields = object.getClass().getDeclaredFields();
@@ -48,15 +50,5 @@ public class Logger {
 
     public static void log(Object entity) throws IllegalAccessException {
         System.out.println(logToReport(entity).toString());
-    }
-
-    public static Object getObject(Field field, Object object) {
-        try {
-            if (field != null) {
-                return field.get(object);
-            } else return "[null]";
-        } catch (IllegalAccessException e) {
-            return "Исключение IllegalAccessException";
-        }
     }
 }

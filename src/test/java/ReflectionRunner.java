@@ -92,7 +92,6 @@ public class ReflectionRunner {
         ferrari1.owners.add(owner7);
         user1.addAuto(ford1);
 
-
         Logger.log(user);
         Logger.log(user1);
     }

@@ -38,4 +38,14 @@ public class ObjectTools {
       }
       else throw new Exception("Тип не поддерживается");
     }
+
+    public static Object getObject(Field field, Object object) {
+        try {
+            if (field != null) {
+                return field.get(object);
+            } else return "[null]";
+        } catch (IllegalAccessException e) {
+            return "Исключение IllegalAccessException";
+        }
+    }
 }

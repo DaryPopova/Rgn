@@ -1,6 +1,6 @@
 import csv.CsvHandler;
-import models.EntitiesLinker;
 
+import models.EntitiesLinker;
 import models.entities.Entity;
 import models.entities.veeva.BusinessAccount;
 import models.entities.veeva.PersonAccount;
