@@ -1,5 +1,6 @@
 package models.entities.fictional;
 
+import models.Has;
 import models.Reflectable;
 import models.Reflectable1;
 import models.Reflectable2;
@@ -15,16 +16,6 @@ public class User extends Entity {
     @Reflectable2(name="reflectable2",  value = "какие-то метаданные2")
     public String name;
     public int age;
+    @Has(childFieldName = "userId", parentFieldName = "id")
     public List<Auto> autos;
-    public FullName fullName;
-
-    public User() {
-        autos = new ArrayList<>();
-    }
-
-    @Reflectable1(name="reflectable1",  value = "какие-то метаданные1")
-    public void addAuto(Auto auto) {
-        autos.add(auto);
-        auto.setUser(this);
-    }
 }

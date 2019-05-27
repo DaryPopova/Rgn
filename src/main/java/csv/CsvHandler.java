@@ -1,5 +1,6 @@
 package csv;
 
+import models.Has;
 import models.ObjectTools;
 import models.entities.Entity;
 import org.apache.commons.csv.CSVFormat;
@@ -10,7 +11,9 @@ import java.io.*;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static models.ObjectTools.getObject;
 import static models.ObjectTools.toTypeWithValue;
@@ -48,12 +51,28 @@ public class CsvHandler {
         } else return columnAnnotation.name();
     }
 
-    Integer nestingLevel = 0;
+    String path = "C:\\Users\\padre\\Dropbox\\edu\\Rgn\\src\\main\\resources";
 
-    public void writeEntitiesToCsv(ArrayList<Entity> entities, String path) throws Exception {
-        String fileName = String.format(path + "%s" + "%s" , nestingLevel.toString(), System.currentTimeMillis());
-        File file = new File(fileName);
-        FileWriter writer = new FileWriter(file);
+    private String getFileName(String path, Integer nestingLevel){
+        return String.format(path + "_%s_" + "_%s" + ".csv" , nestingLevel.toString(), System.currentTimeMillis());
+    }
+
+    public void writeEntitiesToCsv(ArrayList<Entity> entities) throws Exception {
+        Map<Integer, FileWriter> nestingLevelToFileWriter = new HashMap<>();
+
+        writeByLevel(entities, nestingLevelToFileWriter, 0);
+        for(FileWriter writer: nestingLevelToFileWriter.values()) {
+            writer.close();
+        }
+    }
+
+    private void writeByLevel(ArrayList<Entity> entities,
+                              Map<Integer, FileWriter> nestingLevelToFileWriter,
+                              Integer nestingLevel) throws Exception {
+        if (nestingLevelToFileWriter.get(nestingLevel) == null) {
+            nestingLevelToFileWriter.put(nestingLevel, new FileWriter(new File(getFileName(path, nestingLevel))));
+        }
+        FileWriter writer = nestingLevelToFileWriter.get(nestingLevel);
         for (Entity entity : entities) {
             for (Field field : entity.getClass().getDeclaredFields()) {
                 switch (ObjectTools.getTypeKind(field)) {
@@ -68,16 +87,26 @@ public class CsvHandler {
                         break;
                     }
                     case COLLECTION: {
-                        nestingLevel = nestingLevel + 1;
-                        writeEntitiesToCsv((ArrayList<Entity>) getObject(field, entity), path);
+                        writeByLevel(getNestedEntities(field, entity), nestingLevelToFileWriter, nestingLevel + 1);
+                        break;
                     }
                     case COMPLEX:
                         throw new Exception("Extracting of complex type don't support");
-
                 }
                 writer.append("\n");
             }
-            writer.close();
         }
     }
+
+    private ArrayList<Entity> getNestedEntities(Field field, Entity entity) {
+        ArrayList<Entity> innerEntities = new ArrayList<>();
+        try {
+            innerEntities = (ArrayList<Entity>) getObject(field, entity);
+        } catch (ClassCastException e) {
+            System.out.println("Can not cast to ArrayList<Entity>");
+        }
+        return innerEntities;
+    }
+
+
 }
