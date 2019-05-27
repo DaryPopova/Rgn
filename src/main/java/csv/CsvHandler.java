@@ -53,27 +53,34 @@ public class CsvHandler {
 
     String path = "C:\\Users\\padre\\Dropbox\\edu\\Rgn\\src\\main\\resources";
 
-    private String getFileName(String path, Integer nestingLevel){
-        return String.format(path + "_%s_" + "_%s" + ".csv" , nestingLevel.toString(), System.currentTimeMillis());
+    private String getFileName(String path, Integer nestingLevel, Class classOfEntity){
+        return String.format(path + "_%s" + "_%s" + "_%s" + ".csv" , nestingLevel.toString(), classOfEntity.getSimpleName(), System.currentTimeMillis());
     }
 
     public void writeEntitiesToCsv(ArrayList<Entity> entities) throws Exception {
-        Map<Integer, FileWriter> nestingLevelToFileWriter = new HashMap<>();
+        Map<Integer, Map<Class, FileWriter>> nestingLevelToFileWriter = new HashMap<>();
 
         writeByLevel(entities, nestingLevelToFileWriter, 0);
-        for(FileWriter writer: nestingLevelToFileWriter.values()) {
-            writer.close();
+        for (Map<Class, FileWriter> kindOfEntityToFileWriter: nestingLevelToFileWriter.values()) {
+            for(FileWriter writer: kindOfEntityToFileWriter.values()) {
+                writer.close();
+            }
         }
     }
 
     private void writeByLevel(ArrayList<Entity> entities,
-                              Map<Integer, FileWriter> nestingLevelToFileWriter,
+                              Map<Integer, Map<Class, FileWriter>> nestingLevelToFileWriters,
                               Integer nestingLevel) throws Exception {
-        if (nestingLevelToFileWriter.get(nestingLevel) == null) {
-            nestingLevelToFileWriter.put(nestingLevel, new FileWriter(new File(getFileName(path, nestingLevel))));
+        if (nestingLevelToFileWriters.get(nestingLevel) == null) {
+            Map<Class, FileWriter> kindOfEntityToFileWriter = new HashMap<>();
+            nestingLevelToFileWriters.put(nestingLevel, kindOfEntityToFileWriter);
         }
-        FileWriter writer = nestingLevelToFileWriter.get(nestingLevel);
         for (Entity entity : entities) {
+            if (nestingLevelToFileWriters.get(nestingLevel).get(entity.getClass()) == null) {
+                nestingLevelToFileWriters.get(nestingLevel).put(entity.getClass(),
+                        new FileWriter(new File(getFileName(path, nestingLevel, entity.getClass()))));
+            }
+            FileWriter writer = nestingLevelToFileWriters.get(nestingLevel).get(entity.getClass());
             for (Field field : entity.getClass().getDeclaredFields()) {
                 switch (ObjectTools.getTypeKind(field)) {
                     case PRIMITIVE:
@@ -87,7 +94,7 @@ public class CsvHandler {
                         break;
                     }
                     case COLLECTION: {
-                        writeByLevel(getNestedEntities(field, entity), nestingLevelToFileWriter, nestingLevel + 1);
+                        writeByLevel(getNestedEntities(field, entity), nestingLevelToFileWriters, nestingLevel + 1);
                         break;
                     }
                     case COMPLEX:
@@ -107,6 +114,4 @@ public class CsvHandler {
         }
         return innerEntities;
     }
-
-
 }
