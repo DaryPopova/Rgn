@@ -34,7 +34,6 @@ public class CsvHandler {
                         if (csvRecords.get(0).get(j).equals(getColumnName(field))) {
                             field.set(entity, toTypeWithValue(field.getType(), csvRecords.get(i).get(j)));
                         }
-                    } else {
                     }
                 }
             }
