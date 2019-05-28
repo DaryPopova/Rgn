@@ -10,7 +10,7 @@ import java.util.List;
 public class MakerFromCsvFieldsToJavaFields {
 
     public static void main(String args[]) throws IOException {
-        String inputPath = "C:\\Users\\padre\\Downloads\\Microsoft.SkypeApp_kzf8qxf38zg5c!App\\All\\минимальный набор из реальных данных\\businessaccount.csv";
+        String inputPath = "C:\\Users\\padre\\Downloads\\Microsoft.SkypeApp_kzf8qxf38zg5c!App\\All\\минимальный набор из реальных данных\\personaccount.csv";
         String outputPath = "C:\\Users\\padre\\Dropbox\\edu\\Rgn\\src\\main\\resources\\variables.txt";
         makeFromCsvFieldsToJavaFields(inputPath, outputPath);
     }
