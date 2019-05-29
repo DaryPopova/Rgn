@@ -24,5 +24,6 @@ public class VeevaPersonAndBusiness {
         for (Entity businessAccount: businessAccounts) {
             log(businessAccount);
         }
+        csvHandler.writeEntitiesToCsv(businessAccounts);
     }
 }
