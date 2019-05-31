@@ -8,16 +8,16 @@ import java.util.ArrayList;
 import static models.ObjectTools.getObject;
 
 
-public class EntitiesLinker {
+public class EntitiesBuilder {
 
-    public void linkEntities(ArrayList parentEntities, ArrayList childEntities) throws NoSuchFieldException {
+    public void buildEntities(ArrayList parentEntities, ArrayList childEntities) throws NoSuchFieldException {
         for (Object parentEntity: parentEntities) {
             ArrayList<Entity> listOfChildEntities = new ArrayList<>();
-            linkListWithOneEntity(parentEntity, childEntities, listOfChildEntities);
+            buildListWithOneEntity(parentEntity, childEntities, listOfChildEntities);
         }
     }
 
-    private void linkListWithOneEntity(Object parentEntity, ArrayList childEntities, ArrayList<Entity> listOfChildEntities) throws NoSuchFieldException {
+    private void buildListWithOneEntity(Object parentEntity, ArrayList childEntities, ArrayList<Entity> listOfChildEntities) throws NoSuchFieldException {
         for (Field parentLinkedField : parentEntity.getClass().getDeclaredFields()) {
                 addToList(parentEntity, parentLinkedField, childEntities, listOfChildEntities);
         }
