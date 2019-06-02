@@ -12,9 +12,9 @@ public class DatabaseReader {
 
     public ArrayList executeSelect(Class typeOfEntity, String table) throws Exception {
         Class.forName("org.postgresql.Driver");
-        String url = "jdbc:postgresql://localhost:5432/postgres";
+        String url = "jdbc:postgresql://localhost:5432/daria_popova";
         String user = "postgres";
-        String password = "1234";
+        String password = "postgres";
 
         Connection con = DriverManager.getConnection(url, user, password);
 
