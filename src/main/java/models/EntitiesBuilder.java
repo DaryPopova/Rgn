@@ -40,8 +40,7 @@ public class EntitiesBuilder {
         for (Field childField : childEntity.getClass().getDeclaredFields()) {
             if ((childField.getName().equals(parentLinkedField.getAnnotation(Has.class).childFieldName()))) {
                 for (Field parentField : parentEntity.getClass().getDeclaredFields()) {
-                    if (parentField.getName().equals(parentLinkedField.getAnnotation(Has.class).parentFieldName()) &&
-                            getObject(childField, childEntity).equals(getObject(parentField, parentEntity))) {
+                    if (parentField.getName().equals(parentLinkedField.getAnnotation(Has.class).parentFieldName()) && getObject(childField, childEntity).equals(getObject(parentField, parentEntity))) {
                         listOfChildEntities.add(childEntity);
                     }
                 }

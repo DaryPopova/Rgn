@@ -1,5 +1,6 @@
 package models.entities.fictional;
 
+import csv.Column;
 import database.DbField;
 import models.Has;
 import models.Reflectable;
@@ -11,12 +12,12 @@ import java.util.List;
 @Reflectable(name="reflectable",  value = "какие-то метаданные")
 public class User extends Entity {
 
-    @DbField(name = "id")
+    @Column(name = "id")
     public Integer id;
     @Reflectable2(name="reflectable2",  value = "какие-то метаданные2")
-    @DbField(name = "name")
+    @Column(name = "name")
     public String name;
-    @DbField(name = "age")
+    @Column(name = "age")
     public Integer age;
     @Has(childFieldName = "userId", parentFieldName = "id")
     public List<Auto> autos;

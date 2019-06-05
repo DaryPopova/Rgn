@@ -1,5 +1,8 @@
 package models;
 
+import csv.Column;
+
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Collection;
@@ -47,5 +50,13 @@ public class ObjectTools {
         } catch (IllegalAccessException e) {
             return "Исключение IllegalAccessException";
         }
+    }
+
+    public static String getColumnName(Field field) {
+        Annotation annotation = field.getAnnotation(Column.class);
+        Column columnAnnotation = (Column) annotation;
+        if (columnAnnotation == null) {
+            return null;
+        } else return columnAnnotation.name();
     }
 }

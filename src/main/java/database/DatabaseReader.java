@@ -1,7 +1,6 @@
 package database;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.sql.*;
 import java.util.ArrayList;
@@ -17,14 +16,8 @@ public class DatabaseReader {
     }
 
     public ArrayList executeSelect(Connection connection,Class typeOfEntity, String table) throws Exception {
-        Class.forName("org.postgresql.Driver");
-        String url = "jdbc:postgresql://localhost:5432/postgres";
-        String user = "postgres";
-        String password = "1234";
-        
-             PreparedStatement pst = connection.prepareStatement(String.format("SELECT * FROM %s", table));
-             ResultSet rs = pst.executeQuery();
-
+        PreparedStatement pst = connection.prepareStatement(String.format("SELECT * FROM %s", table));
+        ResultSet rs = pst.executeQuery();
 
         ArrayList listOfEntities = new ArrayList();
         ResultSetMetaData rsmd = rs.getMetaData();

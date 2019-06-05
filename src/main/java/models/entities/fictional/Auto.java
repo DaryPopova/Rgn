@@ -1,5 +1,6 @@
 package models.entities.fictional;
 
+import csv.Column;
 import database.DbField;
 import models.Has;
 import models.entities.Entity;
@@ -7,13 +8,13 @@ import models.entities.Entity;
 import java.util.List;
 
 public class Auto extends Entity {
-    @DbField(name = "id")
+    @Column(name = "id")
     public Integer id;
-    @DbField(name = "model")
+    @Column(name = "model")
     public String model;
-    @DbField(name = "color")
+    @Column(name = "color")
     public String color;
-    @DbField(name = "user_id")
+    @Column(name = "user_id")
     public Integer userId;
     @Has(childFieldName = "autoId", parentFieldName = "id")
     public List<Seller> sellers;
