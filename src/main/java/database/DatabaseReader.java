@@ -10,15 +10,19 @@ import static models.ObjectTools.toTypeWithValue;
 
 public class DatabaseReader {
 
-    public ArrayList executeSelect(Class typeOfEntity, String table) throws Exception {
+    public Connection createConnection(String driverName, String url, String user, String password) throws Exception {
+        Class.forName(driverName);
+        Connection con = DriverManager.getConnection(url, user, password);
+        return con;
+    }
+
+    public ArrayList executeSelect(Connection connection,Class typeOfEntity, String table) throws Exception {
         Class.forName("org.postgresql.Driver");
         String url = "jdbc:postgresql://localhost:5432/postgres";
         String user = "postgres";
         String password = "1234";
-
-        Connection con = DriverManager.getConnection(url, user, password);
-
-             PreparedStatement pst = con.prepareStatement(String.format("SELECT * FROM %s", table));
+        
+             PreparedStatement pst = connection.prepareStatement(String.format("SELECT * FROM %s", table));
              ResultSet rs = pst.executeQuery();
 
 
