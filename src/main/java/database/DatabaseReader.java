@@ -6,13 +6,14 @@ import java.lang.reflect.Field;
 import java.sql.*;
 import java.util.ArrayList;
 
+import static models.ObjectTools.getColumnName;
 import static models.ObjectTools.toTypeWithValue;
 
 public class DatabaseReader {
 
     public ArrayList executeSelect(Class typeOfEntity, String table) throws Exception {
         Class.forName("org.postgresql.Driver");
-        String url = "jdbc:postgresql://localhost:5432/daria_popova";
+        String url = "jdbc:postgresql://localhost:5432/postgres";
         String user = "postgres";
         String password = "postgres";
 
@@ -30,9 +31,12 @@ public class DatabaseReader {
             for (int i = 1; i <= rsmd.getColumnCount(); i++) {
                 Field[] fieldsOfEntity = typeOfEntity.getDeclaredFields();
                 for (int j = 0; j < fieldsOfEntity.length; j++) {
-                    if (getDbFieldName(fieldsOfEntity[j]) != null) {
-                        if (getDbFieldName(fieldsOfEntity[j]).equals(rsmd.getColumnName(i))) {
-                            fieldsOfEntity[j].set(entity, toTypeWithValue(fieldsOfEntity[j].getType(), rs.getObject(i).toString()));
+                    if (getColumnName(fieldsOfEntity[j]) != null) {
+                        if (getColumnName(fieldsOfEntity[j]).equalsIgnoreCase(rsmd.getColumnName(i))) {
+                            if (rs.getObject(i) != null) {
+                                fieldsOfEntity[j].set(entity, toTypeWithValue(fieldsOfEntity[j].getType(), rs.getObject(i).toString()));
+                            }
+                            else fieldsOfEntity[j].set(entity, toTypeWithValue(fieldsOfEntity[j].getType(), "null"));
                         }
                     }
                 }

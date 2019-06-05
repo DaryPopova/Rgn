@@ -15,6 +15,7 @@ import java.util.Map;
 
 import static models.ObjectTools.getObject;
 import static models.ObjectTools.toTypeWithValue;
+import static models.ObjectTools.getColumnName;
 
 public class CsvHandler {
 
@@ -40,13 +41,7 @@ public class CsvHandler {
         return listOfEntities;
     }
 
-    private String getColumnName(Field field) {
-        Annotation annotation = field.getAnnotation(Column.class);
-        Column columnAnnotation = (Column) annotation;
-        if (columnAnnotation == null) {
-            return null;
-        } else return columnAnnotation.name();
-    }
+
 
     String path = "C:\\Users\\padre\\Downloads\\Microsoft.SkypeApp_kzf8qxf38zg5c!App\\All\\минимальный набор из реальных данных\\";
 
