@@ -1,10 +1,10 @@
 package database;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.sql.*;
 import java.util.ArrayList;
 
+import static models.ObjectTools.getColumnName;
 import static models.ObjectTools.toTypeWithValue;
 
 public class DatabaseReader {
@@ -27,8 +27,8 @@ public class DatabaseReader {
             for (int i = 1; i <= rsmd.getColumnCount(); i++) {
                 Field[] fieldsOfEntity = typeOfEntity.getDeclaredFields();
                 for (int j = 0; j < fieldsOfEntity.length; j++) {
-                    if (getDbFieldName(fieldsOfEntity[j]) != null) {
-                        if (getDbFieldName(fieldsOfEntity[j]).equals(rsmd.getColumnName(i))) {
+                    if (getColumnName(fieldsOfEntity[j]) != null) {
+                        if (getColumnName(fieldsOfEntity[j]).equals(rsmd.getColumnName(i))) {
                             fieldsOfEntity[j].set(entity, toTypeWithValue(fieldsOfEntity[j].getType(), rs.getObject(i).toString()));
                         }
                     }
@@ -38,11 +38,6 @@ public class DatabaseReader {
         }
         return listOfEntities;
     }
-    private String getDbFieldName(Field field) {
-        Annotation annotation = field.getAnnotation(DbField.class);
-        DbField columnAnnotation = (DbField) annotation;
-        if (columnAnnotation == null) {
-            return null;
-        } else return columnAnnotation.name();
-    }
+
+
 }

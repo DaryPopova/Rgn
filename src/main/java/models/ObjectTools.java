@@ -1,6 +1,7 @@
 package models;
 
 import csv.Column;
+import database.DbField;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -55,6 +56,14 @@ public class ObjectTools {
     public static String getColumnName(Field field) {
         Annotation annotation = field.getAnnotation(Column.class);
         Column columnAnnotation = (Column) annotation;
+        if (columnAnnotation == null) {
+            return null;
+        } else return columnAnnotation.name();
+    }
+
+    public String getDbFieldName(Field field) {
+        Annotation annotation = field.getAnnotation(DbField.class);
+        DbField columnAnnotation = (DbField) annotation;
         if (columnAnnotation == null) {
             return null;
         } else return columnAnnotation.name();

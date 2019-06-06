@@ -1,7 +1,6 @@
 package models.entities.fictional;
 
 import csv.Column;
-import database.DbField;
 import models.entities.Entity;
 
 public class Seller extends Entity {

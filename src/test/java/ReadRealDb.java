@@ -1,8 +1,6 @@
 import database.DatabaseReader;
 import models.EntitiesBuilder;
 import models.Logger;
-import models.entities.fictional.Auto;
-import models.entities.fictional.User;
 import models.entities.veeva.BusinessAccount;
 import models.entities.veeva.PersonAccount;
 import org.junit.Test;
