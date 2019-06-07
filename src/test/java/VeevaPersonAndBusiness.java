@@ -1,4 +1,5 @@
-import csv.CsvHandler;
+import csv.CsvReader;
+import csv.Extractor;
 
 import models.EntitiesBuilder;
 import models.entities.Entity;
@@ -13,10 +14,10 @@ import static models.Logger.log;
 public class VeevaPersonAndBusiness {
     @Test
     public void run() throws Exception {
-        CsvHandler csvHandler = new CsvHandler();
-        ArrayList<BusinessAccount> businessAccounts = csvHandler.readCsvToListOfEntities(BusinessAccount.class,
+        CsvReader csvReader = new CsvReader();
+        ArrayList<BusinessAccount> businessAccounts = csvReader.readCsvToListOfEntities(BusinessAccount.class,
                 "C:\\Users\\padre\\Downloads\\Microsoft.SkypeApp_kzf8qxf38zg5c!App\\All\\минимальный набор из реальных данных\\businessaccount.csv");
-        ArrayList<PersonAccount> personAccounts = csvHandler.readCsvToListOfEntities(PersonAccount.class,
+        ArrayList<PersonAccount> personAccounts = csvReader.readCsvToListOfEntities(PersonAccount.class,
                 "C:\\Users\\padre\\Downloads\\Microsoft.SkypeApp_kzf8qxf38zg5c!App\\All\\минимальный набор из реальных данных\\personaccount.csv");
 
         EntitiesBuilder linker = new EntitiesBuilder();
@@ -24,6 +25,7 @@ public class VeevaPersonAndBusiness {
         for (Entity businessAccount: businessAccounts) {
             log(businessAccount);
         }
-        csvHandler.writeEntitiesToCsv(businessAccounts);
+        Extractor extractor = new Extractor();
+        extractor.writeEntitiesToCsv(businessAccounts);
     }
 }

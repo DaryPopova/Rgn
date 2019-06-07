@@ -10,10 +10,21 @@ import static models.ObjectTools.getObject;
 
 public class EntitiesBuilder {
 
-    public void buildEntities(ArrayList parentEntities, ArrayList childEntities) throws NoSuchFieldException {
+    public void buildEntities(ArrayList parentEntities, ArrayList childEntities) throws Exception {
         for (Object parentEntity: parentEntities) {
             ArrayList<Entity> listOfChildEntities = new ArrayList<>();
             buildListWithOneEntity(parentEntity, childEntities, listOfChildEntities);
+            for (Object childEntity: listOfChildEntities) {
+                initializeParentOwnerOfEntity(childEntity, parentEntity);
+            }
+        }
+    }
+
+    private void initializeParentOwnerOfEntity(Object childEntity, Object parentEntity) throws Exception {
+        for (Field field: childEntity.getClass().getFields()) {
+            if (field.getAnnotation(ParentOwner.class) != null) {
+                field.set(childEntity, parentEntity);
+            }
         }
     }
 
@@ -42,10 +53,10 @@ public class EntitiesBuilder {
                 for (Field parentField : parentEntity.getClass().getDeclaredFields()) {
                     if (parentField.getName().equals(parentLinkedField.getAnnotation(Has.class).parentFieldName()) && getObject(childField, childEntity).equals(getObject(parentField, parentEntity))) {
                         listOfChildEntities.add(childEntity);
+
                     }
                 }
             }
         }
     }
-
 }

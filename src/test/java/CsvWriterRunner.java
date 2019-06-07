@@ -1,5 +1,5 @@
 
-import csv.CsvHandler;
+import csv.Extractor;
 import models.entities.Entity;
 import models.entities.fictional.*;
 import org.junit.jupiter.api.Test;
@@ -138,6 +138,6 @@ public class CsvWriterRunner {
         users.add(user);
         users.add(user1);
 
-        new CsvHandler().writeEntitiesToCsv(users);
+        new Extractor().writeEntitiesToCsv(users);
     }
 }

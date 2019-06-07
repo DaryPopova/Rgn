@@ -53,6 +53,18 @@ public class ObjectTools {
         }
     }
 
+    public static Object getTypeOfObject(Field field, Object object) {
+        try {
+            if (field == null) {
+                return "[null]";
+            } else if (field.get(object) == null) {
+                return field.getType();
+            } else return field.get(object).getClass();
+        } catch (IllegalAccessException e) {
+            return "Исключение IllegalAccessException";
+        }
+    }
+
     public static String getColumnName(Field field) {
         Annotation annotation = field.getAnnotation(Column.class);
         Column columnAnnotation = (Column) annotation;

@@ -1,48 +1,16 @@
 package csv;
 
 import models.ObjectTools;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVRecord;
 
 import java.io.*;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static models.ObjectTools.getObject;
-import static models.ObjectTools.toTypeWithValue;
-import static models.ObjectTools.getColumnName;
 
-public class CsvHandler {
-
-    public ArrayList readCsvToListOfEntities(Class typeOfEntity, String path) throws Exception {
-        ArrayList listOfEntities = new ArrayList<>();
-        FileInputStream is = new FileInputStream(path);
-        Reader in = new InputStreamReader(is);
-        CSVParser parser = new CSVParser(in, CSVFormat.RFC4180);
-        List<CSVRecord> csvRecords = parser.getRecords();
-        for (int i = 1; i < csvRecords.size(); i++) {
-            Object entity = typeOfEntity.newInstance();
-            for (int j = 0; j < csvRecords.get(i).size(); j++) {
-                for (Field field : typeOfEntity.getDeclaredFields()) {
-                    if (getColumnName(field) != null) {
-                        if (csvRecords.get(0).get(j).equals(getColumnName(field))) {
-                            field.set(entity, toTypeWithValue(field.getType(), csvRecords.get(i).get(j)));
-                        }
-                    }
-                }
-            }
-            listOfEntities.add(entity);
-        }
-        return listOfEntities;
-    }
-
-
-
+public class Extractor {
     String path = "C:\\Users\\padre\\Downloads\\Microsoft.SkypeApp_kzf8qxf38zg5c!App\\All\\минимальный набор из реальных данных\\";
 
     private String getFileName(String path, Integer nestingLevel, Class classOfEntity){

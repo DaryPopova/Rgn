@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.util.Collection;
 
 import static models.ObjectTools.getObject;
+import static models.ObjectTools.getTypeOfObject;
 
 public class Logger {
     public static Report logToReport(Object object, Report report){
@@ -38,7 +39,16 @@ public class Logger {
                     break;
             }
         }
+        logParentOwnersOfObject(object, report);
         return report;
+    }
+
+    private static void logParentOwnersOfObject(Object object, Report report){
+        for (Field field: object.getClass().getFields()) {
+            if (field.getAnnotation(ParentOwner.class) != null) {
+                report.addLine("%s: %s %s", field.getName(), "Object of", getTypeOfObject(field, object).toString());
+            }
+        }
     }
 
     public static Report logToReport(Object entity) throws IllegalAccessException {
