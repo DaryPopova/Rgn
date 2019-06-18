@@ -10,7 +10,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
-import java.util.ArrayList;
 
 public class MakerFromSqlFieldsToJavaFields {
     public static void main(String args[]) throws Exception {

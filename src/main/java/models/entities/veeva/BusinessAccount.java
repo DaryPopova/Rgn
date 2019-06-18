@@ -305,6 +305,6 @@ public class BusinessAccount extends Entity {
     public String regDermBillingDirectorC;
 
 
-    @Has(childFieldName = "primaryParentVodC", parentFieldName = "id")
+    @Has(pairsOfParentAndChildFields = {"primaryParentVodC|id"})
     public ArrayList<PersonAccount> personAccounts;
 }

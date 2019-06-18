@@ -45,7 +45,7 @@ public class ObjectTools {
 
     public static Object getObject(Field field, Object object) {
         try {
-            if (field != null) {
+            if (field != null && field.get(object) != null) {
                 return field.get(object);
             } else return "[null]";
         } catch (IllegalAccessException e) {

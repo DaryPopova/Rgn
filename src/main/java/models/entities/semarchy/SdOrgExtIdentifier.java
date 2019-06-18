@@ -2,7 +2,7 @@ package models.entities.semarchy;
 
 import csv.Column;
 
-public class sdOrganization {
+public class SdOrgExtIdentifier {
     @Column(name = "b_loadid")
     public Integer bLoadid;
 
@@ -51,27 +51,21 @@ public class sdOrganization {
     @Column(name = "b_updator")
     public String bUpdator;
 
-    @Column(name = "legal_business_name")
-    public String legalBusinessName;
+    @Column(name = "identifier_type")
+    public String identifierType;
 
-    @Column(name = "dba_name")
-    public String dbaName;
+    @Column(name = "identifier_value")
+    public String identifierValue;
 
-    @Column(name = "verification_status")
-    public String verificationStatus;
+    @Column(name = "f_org_id")
+    public String fOrgId;
 
-    @Column(name = "account_type")
-    public String accountType;
+    @Column(name = "fp_org_id")
+    public String fpOrgId;
 
-    @Column(name = "account_sub_type")
-    public String accountSubType;
+    @Column(name = "fs_org_id")
+    public String fsOrgId;
 
-    @Column(name = "account_status")
-    public String accountStatus;
-
-    @Column(name = "class_of_trade_rgn")
-    public String classOfTradeRgn;
-
-    @Column(name = "class_of_trade_ims")
-    public String classOfTradeIms;
+    @Column(name = "fd_org_id")
+    public String fdOrgId;
 }

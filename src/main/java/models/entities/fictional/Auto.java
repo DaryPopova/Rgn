@@ -16,8 +16,8 @@ public class Auto extends Entity {
     public String color;
     @Column(name = "user_id")
     public Integer userId;
-    @Has(childFieldName = "autoId", parentFieldName = "id")
+    @Has(pairsOfParentAndChildFields = "autoId|id")
     public List<Seller> sellers;
-    @Has(childFieldName = "autoId", parentFieldName = "id")
+    @Has(pairsOfParentAndChildFields = "autoId|id")
     public List<Owner> owners;
 }

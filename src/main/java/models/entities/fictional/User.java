@@ -14,6 +14,6 @@ public class User extends Entity {
     public String name;
     @Column(name = "age")
     public Integer age;
-    @Has(childFieldName = "userId", parentFieldName = "id")
+    @Has(pairsOfParentAndChildFields = "userId|id")
     public List<Auto> autos;
 }

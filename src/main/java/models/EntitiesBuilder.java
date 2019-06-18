@@ -4,8 +4,12 @@ import models.entities.Entity;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import static models.ObjectTools.getObject;
+import static models.ObjectTools.toTypeWithValue;
 
 
 public class EntitiesBuilder {
@@ -34,29 +38,56 @@ public class EntitiesBuilder {
         }
     }
 
-    private void addToList(Object parentEntity, Field parentLinkedField, ArrayList<Entity> childEntities, ArrayList listOfChildEntities) {
+    private void addToList(Object parentEntity, Field parentLinkedField, ArrayList childEntities, ArrayList listOfChildEntities) {
         if (ObjectTools.getTypeKind(parentLinkedField).equals(FieldTypeKind.COLLECTION)) {
             try {
                 parentLinkedField.set(parentEntity, listOfChildEntities);
             } catch (IllegalAccessException e) {
                 System.out.println("Исключение IllegalAccessException");
             }
-            for (Entity childEntity : childEntities) {
-                addToListOneChildEntity(parentEntity, parentLinkedField, childEntity, listOfChildEntities);
+            for (Object childEntity : childEntities) {
+                addToListOneChildEntity(parentEntity, childEntity, listOfChildEntities);
             }
         }
     }
 
-    private void addToListOneChildEntity(Object parentEntity, Field parentLinkedField, Entity childEntity, ArrayList listOfChildEntities) {
-        for (Field childField : childEntity.getClass().getDeclaredFields()) {
-            if ((childField.getName().equals(parentLinkedField.getAnnotation(Has.class).childFieldName()))) {
-                for (Field parentField : parentEntity.getClass().getDeclaredFields()) {
-                    if (parentField.getName().equals(parentLinkedField.getAnnotation(Has.class).parentFieldName()) && getObject(childField, childEntity).equals(getObject(parentField, parentEntity))) {
-                        listOfChildEntities.add(childEntity);
+    private void addToListOneChildEntity(Object parentEntity, Object childEntity, ArrayList listOfChildEntities) {
+        String[] pairsOfParentAndChildFields = {};
+        for (Field parentField: parentEntity.getClass().getDeclaredFields()) {
+            if (parentField.getAnnotation(Has.class) != null) {
+                pairsOfParentAndChildFields = parentField.getAnnotation(Has.class).pairsOfParentAndChildFields();
+            }
+        }
+        List<List<Field>> parentAndChildFieldsArray = getParentAndChildFieldsList(pairsOfParentAndChildFields, parentEntity, childEntity);
+        if (allLinkedFieldValuesEqualsEachOther(parentAndChildFieldsArray, parentEntity, childEntity)) {
+            listOfChildEntities.add(childEntity);
 
-                    }
+        }
+    }
+
+    private List<List<Field>> getParentAndChildFieldsList(String[] pairsOfParentAndChildFields, Object parentEntity, Object childEntity) {
+        List<List<Field>> parentAndChildFieldsArray = new ArrayList<>();
+        for (String parentAndChildField: pairsOfParentAndChildFields) {
+            String parentFieldName = parentAndChildField.split("\\|")[0];
+            String childFieldName = parentAndChildField.split("\\|")[1];
+            for (Field childField : childEntity.getClass().getDeclaredFields()) {
+                for (Field parentField: parentEntity.getClass().getDeclaredFields())
+                if (parentField.getName().equals(parentFieldName) && childField.getName().equals(childFieldName)) {
+                    List<Field> parentAndChildFieldPair = new ArrayList<>();
+                    parentAndChildFieldPair.add(parentField);
+                    parentAndChildFieldPair.add(childField);
+                    parentAndChildFieldsArray.add(parentAndChildFieldPair);
                 }
             }
         }
+        return parentAndChildFieldsArray;
+    }
+
+    private boolean allLinkedFieldValuesEqualsEachOther(List<List<Field>> parentAndChildFieldsArray, Object parentEntity, Object childEntity) {
+        boolean allLinkedFieldValuesEqualsEachOther = true;
+        for (List<Field> parentAndChildFields: parentAndChildFieldsArray) {
+            allLinkedFieldValuesEqualsEachOther = allLinkedFieldValuesEqualsEachOther && getObject(parentAndChildFields.get(1), childEntity).equals(getObject(parentAndChildFields.get(0), parentEntity));
+        }
+        return allLinkedFieldValuesEqualsEachOther;
     }
 }

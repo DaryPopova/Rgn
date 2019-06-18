@@ -29,7 +29,11 @@ public class DatabaseReader {
                 for (int j = 0; j < fieldsOfEntity.length; j++) {
                     if (getColumnName(fieldsOfEntity[j]) != null) {
                         if (getColumnName(fieldsOfEntity[j]).equals(rsmd.getColumnName(i))) {
-                            fieldsOfEntity[j].set(entity, toTypeWithValue(fieldsOfEntity[j].getType(), rs.getObject(i).toString()));
+                            if (rs.getObject(i) != null) {
+                                fieldsOfEntity[j].set(entity, toTypeWithValue(fieldsOfEntity[j].getType(), rs.getObject(i).toString()));
+                            } else {
+                                fieldsOfEntity[j].set(entity, null);
+                            }
                         }
                     }
                 }
