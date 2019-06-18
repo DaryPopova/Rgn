@@ -54,7 +54,7 @@ public class EntitiesBuilder {
     private void addToListOneChildEntity(Object parentEntity, Object childEntity, ArrayList listOfChildEntities) {
         String[] pairsOfParentAndChildFields = {};
         for (Field parentField: parentEntity.getClass().getDeclaredFields()) {
-            if (parentField.getAnnotation(Has.class) != null) {
+            if (parentField.getAnnotation(Has.class) != null && parentField.getName().substring(0, parentField.getName().length() - 1).equals(childEntity.getClass().getSimpleName())) {
                 pairsOfParentAndChildFields = parentField.getAnnotation(Has.class).pairsOfParentAndChildFields();
             }
         }
