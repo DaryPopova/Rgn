@@ -10,7 +10,7 @@ import java.sql.ResultSetMetaData;
 
 public class MakerFromSqlFieldsToJavaFields {
     public static void main(String args[]) throws Exception {
-        makeFromCsvFieldsToJavaFields("semarchy_dloc2.sd_org_ext_identifier", "/home/alex/IdeaProjects/Rgn/src/test/java/sql.txt");
+        makeFromCsvFieldsToJavaFields("semarchy_dloc2.gd_dcr_line", "/home/alex/IdeaProjects/Rgn/src/main/variables.txt");
     }
 
     public static void makeFromCsvFieldsToJavaFields(String sqlTable, String outputPath) throws Exception {
